@@ -1,4 +1,5 @@
 (require '[clojure.string :as string])
+(require 'clojure.set)
 
 (defmacro with-read-lines
   [reader bindings & body]
@@ -15,51 +16,37 @@
 
 (defn words [s]
   (re-seq #"\w+" s))
+(defn wordsv [s]
+  (vec (words s)))
 
 (defn java-props [lines]
   (for [line lines
         :when (.contains line "private")]
     (-> line
         words
-        last
-        (#(subs %1 0 (- (count %1) 1))))))
+        last)))
 
-; JavaのSetではない模様
-(defmulti xor (fn [s1 s2] [(class s1) (class s2)]))
-(defmethod xor 
-  [java.util.Set java.util.Set]
-  [s1 s2]
-  (clojure.set/difference (clojure.set/union s1 s2)
-                          (clojure.set/intersection s1 s2)))
+(defn xor
+  ([coll1 coll2]
+    (let [s1 (set coll1)
+          s2 (set coll2)]
+      (clojure.set/difference (clojure.set/union s1 s2)
+                              (clojure.set/intersection s1 s2))))
+  ([coll1 coll2 & more]
+    (reduce xor (xor coll1 coll2) more)))
 
 
-; CallableとSeqableを持つやつでやって
-(defmethod xor
-  [clojure.lang.Seqable clojure.lang.Seqable]
-  [seq1 seq2]
-  (set 
-    (apply concat
-      (for [x seq1
-            y seq2
-            :when (not (or (seq1 y) (seq2 x))())]
-        (list x y)))))
+(defn a-props [a] (->> a
+                  (filter #(not (empty? %)))
+                  (map #((wordsv %) 0))))
 
-; (defn a- [] (->> "a.txt"
-;                  read-lines
-;                  (filter #(not (empty? %)))
-;                  (map #((words %) 0)
-;                  set)))
+(defn b-props [b] (->> b
+                  (filter #(not (empty? %)))
+                  java-props))
 
-; (defn b- [] (->> "b.txt"
-;                  read-lines
-;                  (filter #(not (empty? %)))
-;                  java-props
-;                  set))
-
-; (defn main []
-;   (let [a (a-)
-;         b (b-)]
-;     (println a)
-;     (println b)
-;     (println (xor a b))))
+(defn main []
+  (with-read-lines clojure.java.io/reader
+    [a "a.txt"
+     b "b.txt"]
+    (xor (vec (a-props a)) (vec (b-props b)))))
 

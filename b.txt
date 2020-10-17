@@ -1,2 +1,5 @@
-1
-2
+private String name;
+
+private String age;
+
+private String weight;
