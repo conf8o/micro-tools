@@ -16,8 +16,6 @@
 
 (defn words [s]
   (re-seq #"\w+" s))
-(defn wordsv [s]
-  (vec (words s)))
 
 (defn java-props [lines]
   (for [line lines
@@ -38,7 +36,7 @@
 
 (defn a-props [a] (->> a
                   (filter #(not (empty? %)))
-                  (map #((wordsv %) 0))))
+                  (map #(first (words %)))))
 
 (defn b-props [b] (->> b
                   (filter #(not (empty? %)))
@@ -48,5 +46,5 @@
   (with-read-lines clojure.java.io/reader
     [a "a.txt"
      b "b.txt"]
-    (xor (vec (a-props a)) (vec (b-props b)))))
+    (xor (a-props a) (b-props b))))
 
