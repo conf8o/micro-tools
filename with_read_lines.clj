@@ -1,7 +1,3 @@
-(defn read-lines [file-name]
-  (with-open [rdr (clojure.java.io/reader file-name)]
-    (vec (line-seq rdr))))
-
 (defmacro with-read-lines
   [reader bindings & body]
   (cond
@@ -16,6 +12,6 @@
                    "with-read-lines only allows Symbols in bindings"))))
 
 (with-read-lines clojure.java.io/reader
-  [a "a.txt" b "b.txt"]
+  [a "java_props/a.txt" b "java_props/b.txt"]
   (println (vec a))
   (println (vec b)))
