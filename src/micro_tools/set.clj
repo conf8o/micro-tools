@@ -1,4 +1,5 @@
-(require 'clojure.set)
+(ns micro-tools.set
+  (:require clojure.set))
 
 (defn xor
   ([coll1 coll2]

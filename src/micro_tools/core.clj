@@ -1,3 +1,5 @@
+(ns micro-tools.core)
+
 (defmacro with-read-lines
   [reader bindings & body]
   (cond
@@ -11,7 +13,16 @@
     :else (throw (IllegalArgumentException.
                    "with-read-lines only allows Symbols in bindings"))))
 
-(with-read-lines clojure.java.io/reader
-  [a "java_props/a.txt" b "java_props/b.txt"]
-  (println (vec a))
-  (println (vec b)))
+(defn words [s]
+  (re-seq #"\w+" s))
+
+(defn dev [& option]
+  (apply 
+   require
+   '[micro-tools.java-props :as java-props]
+   '[micro-tools.json-props :as json-props]
+   'micro-tools.set
+   '[micro-tools.sql-binding :as sql-binding]
+   'micro-tools.string
+   '[micro-tools.table-filter :as table-filter]
+   option))

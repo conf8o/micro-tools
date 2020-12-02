@@ -1,3 +1,0 @@
-name 名前
-age 年齢
-height 身長
