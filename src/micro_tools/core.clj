@@ -25,4 +25,8 @@
    '[micro-tools.sql-binding :as sql-binding]
    'micro-tools.string
    '[micro-tools.table-filter :as table-filter]
+   '[micro-tools.ut-resource :as ut-resource]
    option))
+
+(defn reload []
+  (require 'micro-tools.core :reload))
