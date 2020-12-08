@@ -1,4 +1,4 @@
 # micro-tools
 
-Private micro tools for Java app development as my work.
+Private micro tools for Java app development  my work.
 
