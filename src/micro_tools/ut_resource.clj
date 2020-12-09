@@ -21,4 +21,4 @@
                     first)]
     (.open desktop folder)))
 
-(def run open-ut-resource)
+(def run reveal-ut-resource)
