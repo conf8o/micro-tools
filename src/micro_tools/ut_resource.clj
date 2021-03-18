@@ -21,4 +21,19 @@
                     first)]
     (.open desktop folder)))
 
-(def run reveal-ut-resource)
+(defn last-folder []
+  (load-file (m-io/resource "ut_resource/last_folder.clj")))
+
+(defn save-last-folder [path]
+  (spit (m-io/resource "ut_resource/last_folder.clj") (str "#\"" path "\"")))
+
+(defn run-inner [folder]
+  (do
+    (reveal-ut-resource folder)
+    (save-last-folder folder)))
+
+(defn run 
+  ([] 
+    (run-inner (last-folder)))
+  ([path]
+    (run-inner path)))
