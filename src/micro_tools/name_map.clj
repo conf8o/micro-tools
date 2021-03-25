@@ -2,7 +2,7 @@
   (:require [micro-tools.io :as m-io]))
 
 (defn get-mapping []
-  (load-file (m-io/resource "name_map/mapping.clj")))
+  (m-io/load-data "name_map/mapping.clj"))
 
 (defn converter [mapping]
   (fn [x] 

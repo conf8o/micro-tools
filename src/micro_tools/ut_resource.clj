@@ -13,7 +13,7 @@
 (defn reveal-ut-resource
   "Reveals resources of UT in file explore."
   [folder-re]
-  (let [{base-path :base-path} (load-file (m-io/resource "ut_resource/config.clj"))
+  (let [{base-path :base-path} (m-io/load-data "ut_resource/config.clj")
         folder (->> (io/file base-path)
                     file-seq
                     (filter #(match-path folder-re %))
@@ -22,10 +22,10 @@
     (.open desktop folder)))
 
 (defn last-folder []
-  (load-file (m-io/resource "ut_resource/last_folder.clj")))
+  (m-io/load-data "ut_resource/last_folder.clj"))
 
 (defn save-last-folder [path]
-  (spit (m-io/resource "ut_resource/last_folder.clj") (str "#\"" path "\"")))
+  (m-io/output-data "ut_resource/last_folder.clj" (str "#\"" path "\"")))
 
 (defn run-inner [folder]
   (do

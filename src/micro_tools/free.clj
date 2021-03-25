@@ -1,7 +1,7 @@
 (ns micro-tools.free
   (:require [micro-tools.io :as m-io]))
 
-(defn after [] (load-file (m-io/resource "free/free.clj")))
+(defn after [] (m-io/load-data "free/free.clj"))
 
 (defn run []
   (let [x (after)]

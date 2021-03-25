@@ -1,7 +1,7 @@
 (ns micro-tools.java-props
   (:require [clojure.string :as string]
             [micro-tools.io :as m-io]
-            [micro-tools.core :refer [with-read-lines words]]
+            [micro-tools.core :refer [words]]
             [micro-tools.set :refer [xor]]))
 
 (defn java-prop [line]
@@ -30,7 +30,7 @@
 (defn source-to-dd
   "A script to reverse engineering for source code to DD"
   []
-  (with-read-lines clojure.java.io/reader
+  (m-io/with-read-lines clojure.java.io/reader
     [a_ (m-io/resource "java_props/new.txt")
      b_ (m-io/resource "java_props/old.txt")
      c (m-io/resource "java_props/c.txt")]
@@ -44,12 +44,11 @@
           a-map (zipmap props-a values-a)
           logi-map (zipmap props-a values-logi)
           b-map (zipmap props-b values-b)]
-      (spit (m-io/resource "java_props/out.txt")
-        (string/join "\n"
+      (m-io/output-data "java_props/out.txt"
           (map 
             (fn [line]
               (let [[x y] (string/split line #",")]
                 (str (logi-map x) "(= " (a-map x) ")\t" (b-map y))))
-            c))))))
+            c)))))
 
 (def run source-to-dd)
