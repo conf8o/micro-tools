@@ -1,7 +1,7 @@
 (ns micro-tools.java-props
   (:require [clojure.string :as string]
             [micro-tools.io :as m-io]
-            [micro-tools.core :refer [words]]
+            [micro-tools.string :as m-string]
             [micro-tools.set :refer [xor]]))
 
 (defn java-prop [line]
@@ -11,12 +11,12 @@
   (for [line lines
         :when (java-prop line)]
     (-> line
-        words
+        m-string/words
         vec)))
 
 (defn logical-props [parts]
   (for [[logical prop] (partition 2 parts)]
-    (let [j (-> prop words vec)]
+    (let [j (-> prop m-string/words vec)]
     [(j 4) (last j) ((string/split logical #" ") 1)])))
 
 (defn a-props [a] (->> a

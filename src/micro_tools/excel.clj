@@ -1,7 +1,6 @@
 (ns micro-tools.excel
   (:require [dk.ative.docjure.spreadsheet :as spreadsheet]
-            [micro-tools.io :as m-io]
-            [micro-tools.string :as m-string])
+            [micro-tools.io :as m-io])
   (:import  [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFSheet]
             [java.lang String]))
 

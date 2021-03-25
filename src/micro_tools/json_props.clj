@@ -1,13 +1,13 @@
 (ns micro-tools.json-props
   (:require [clojure.string :as string]
             [micro-tools.io :as m-io]
-            [micro-tools.core :refer [words]]))
+            [micro-tools.string :as m-string]))
 
 (defn props [lines]
   (for [line lines
         :when (.contains line ":")]
     (-> line
-        words
+        m-string/words
         first)))
 
 (defn output-props []

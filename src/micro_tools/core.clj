@@ -1,8 +1,5 @@
 (ns micro-tools.core)
 
-(defn words [s]
-  (re-seq #"\w+" s))
-
 (defn dev [& option]
   (apply 
    require
