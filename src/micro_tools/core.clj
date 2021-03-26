@@ -11,6 +11,7 @@
    '[micro-tools.set :as m-set] 
    '[micro-tools.sql-binding :as sql-binding]
    '[micro-tools.string :as m-string]
+   '[micro-tools.swagger :as swagger]
    '[micro-tools.table-filter :as table-filter]
    '[micro-tools.ut-resource :as ut-resource]
    option))
