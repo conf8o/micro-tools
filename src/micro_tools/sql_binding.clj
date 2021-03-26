@@ -28,5 +28,5 @@
 (defn run []
   (let [raw-file-name (m-io/resource "sql_binding/raw.txt")
         formatted-file-name (m-io/resource "sql_binding/formatted.sql")]
-  (spit formatted-file-name
-        (from-raw (slurp raw-file-name)))))
+    (spit formatted-file-name
+          (from-raw (slurp raw-file-name)))))
