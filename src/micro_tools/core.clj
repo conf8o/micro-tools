@@ -4,7 +4,9 @@
   (apply 
    require
    '[micro-tools.excel :as excel]
+   '[micro-tools.explorer :as explorer]
    '[micro-tools.free :as free]
+   '[micro-tools.io :as m-io]
    '[micro-tools.java-props :as java-props]
    '[micro-tools.json-props :as json-props]
    '[micro-tools.name-map :as name-map]

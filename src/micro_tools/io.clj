@@ -34,5 +34,5 @@
   (->> dir
        io/file
        file-seq
-       (map #(.toString (.getFileName (.toPath %))))
+       (map #(.getPath %))
        (filter #(re-find pattern %))))
