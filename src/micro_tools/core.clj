@@ -20,3 +20,12 @@
 
 (defn reload []
   (require 'micro-tools.core :reload))
+
+(defmacro exec [script]
+  `(load-file (str "scripts/" ~(name script) ".clj")))
+
+(defmacro run [tool & args]
+  `(do
+     (reload)
+     (dev :reload)
+     (~(symbol (name tool) "run") ~@args)))
