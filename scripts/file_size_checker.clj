@@ -1,5 +1,4 @@
-(require '[clojure.java.io :as io]
-         '[clojure.string :as string])
+(require '[clojure.java.io :as io])
 (import '[java.io IOException])
 
 (def base-folder (slurp "scripts/file_size_checker.input.txt"))
@@ -13,7 +12,7 @@
 
 (defn user-input [& questions]
   (do 
-    (println (string/join " " questions))
+    (apply println questions)
     (read)))
 
 (defn additional-input [file]
