@@ -11,13 +11,19 @@
          file-seq
          (filter #(.isFile %)))))
 
-(defn user-input [max-size f]
-  (do
-    (println (format (str "%," max-size "d") (.length f))
-             "bytes :"
-             (.toString f)
-             "\nAdd? (type Q if quit)")
+(defn user-input [& questions]
+  (do 
+    (println (string/join " " questions))
     (read)))
+
+(defn additional-input [file]
+  (user-input (format (str "%,d") (.length file))
+              "bytes:"
+              (.toString file)
+              "\nAdd this? (N if don't want to add it.)"))
+
+(defn deleting-input []
+  (user-input "Output file is not empty. Make it empty? (Y if want to do it.)"))
 
 (defn write [w str]
   (try
@@ -27,17 +33,23 @@
       :error)))
 
 (defn is-quit? [c result]
-  (or (= 'Q c) (= :error result)))
+  (or (= 'N c) (= :error result)))
+
+(defn initialize [output]
+  (when (and (< 0 (.length (io/file output)))
+             (= 'Y (deleting-input))
+        (do (spit output "") (println "Deleted.")))))
 
 (defn app [input output]
-  (let [files (large-files input)
-        digits (apply max (map #(-> % .length str count) files))]
-  (with-open [f-out (io/writer output :append true)]
-    (loop [fs files
-           result :success]
-      (let [f (first fs)]
-        (if (is-quit? (user-input digits f) result)
+  (let [files (large-files input)]
+    (with-open [f-out (io/writer output :append true)]
+      (loop [fs files
+             result :success]
+        (when-let [f (first fs)]
+          (if (is-quit? (additional-input f) result)
             nil
-            (recur (next fs) (write f-out (str (.toString f) "\n")))))))))
+            (recur (next fs) 
+                   (write f-out (str (.length f) "," (.toString f) "\n")))))))))
 
+(initialize output-file)
 (app (io/file base-folder) output-file)
