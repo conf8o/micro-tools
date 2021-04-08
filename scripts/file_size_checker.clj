@@ -31,7 +31,7 @@
       (println e)
       :error)))
 
-(defn is-quit? [c result]
+(defn quit? [c result]
   (or (= 'N c) (= :error result)))
 
 (defn initialize [output]
@@ -45,9 +45,8 @@
       (loop [fs files
              result :success]
         (when-let [f (first fs)]
-          (if (is-quit? (additional-input f) result)
-            nil
-            (recur (next fs) 
+          (when-not (quit? (additional-input f) result)
+            (recur (next fs)
                    (write f-out (str (.length f) "," (.toString f) "\n")))))))))
 
 (initialize output-file)
